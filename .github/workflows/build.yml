@@ -2,6 +2,17 @@ name: Build ArtisanKRNL
 
 on:
   workflow_dispatch:
+    inputs:
+      target:
+        description: "Device to build"
+        required: true
+        default: "beyond2lte"
+        type: choice
+        options:
+          - beyond0lte
+          - beyond1lte
+          - beyond2lte
+          - beyondx
 
 jobs:
   build:
@@ -10,7 +21,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [beyond0lte, beyond1lte, beyond2lte, beyondx]
+        target: ${{ fromJSON(format('["{0}"]', inputs.target)) }}
 
     steps:
       - name: Checkout source
